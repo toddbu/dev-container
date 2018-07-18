@@ -1,12 +1,13 @@
+# Forked from https://github.com/pwntr/samba-alpine-docker
+
 FROM alpine:latest
-MAINTAINER Peter Winter <peter@pwntr.com>
-LABEL Description="Simple and lightweight Samba docker container, based on Alpine Linux." Version="0.1"
+MAINTAINER Todd Buiten <spam@buiten.com>
 
 # update the base system
 RUN apk update && apk upgrade
 
 # install samba and supervisord and clear the cache afterwards
-RUN apk add samba samba-common-tools supervisor && rm -rf /var/cache/apk/*
+RUN apk add bash samba samba-common-tools supervisor && rm -rf /var/cache/apk/*
 
 # create a dir for the config and the share
 RUN mkdir /config /shared

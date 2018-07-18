@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker build -t toddbu/dev-container:1.0 .

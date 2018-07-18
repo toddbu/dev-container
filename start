@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker run -d --restart="always" -p 445:445 --name samba toddbu/dev-container:1.0
