@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker run -d --restart="always" -p 445:445 --name samba toddbu/dev-container:1.0
+docker run -d --restart="always" --name node-dev-container --net="host" toddbu/node-dev-container:1.0
