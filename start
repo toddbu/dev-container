@@ -1,3 +1,6 @@
 #!/bin/bash
 
-docker run -d --restart="always" --name node-dev-container --hostname dev --net="host" toddbu/node-dev-container:1.0
+# Open up the docker socket so that our container can talk to it
+sudo chmod 777 /var/run/docker.sock
+
+docker run -d --restart="always" --name node-dev-container --hostname dev --net="host" -v /var/run/docker.sock:/var/run/docker.sock:rw toddbu/node-dev-container:1.0
