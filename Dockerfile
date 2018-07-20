@@ -7,7 +7,7 @@ MAINTAINER Todd Buiten <spam@buiten.com>
 RUN apk update && apk upgrade
 
 # Install samba and supervisord and clear the cache afterwards
-RUN apk add bash nodejs nodejs-npm openssh samba samba-common-tools supervisor && rm -rf /var/cache/apk/*
+RUN apk add bash sudo nodejs nodejs-npm git curl openssh samba samba-common-tools supervisor && rm -rf /var/cache/apk/*
 
 # Change the default port for SSH from 22 to 2223
 RUN sed -i 's/#Port 22/Port 2223/g' /etc/ssh/sshd_config; \
@@ -28,7 +28,7 @@ RUN echo -e "letsdance\nletsdance" | smbpasswd -a -s -c /etc/samba/smb.conf dev
 # Volume mappings
 VOLUME /etc/supervisor.d /etc/ssh /etc/samba /home/dev
 
-# exposes samba's default ports (137, 138 for nmbd and 139, 445 for smbd)
-EXPOSE 137/udp 138/udp 139 445
+# exposes samba's default ports (137, 138 for nmbd and 139, 445 for smbd) and sshd port 2223
+EXPOSE 137/udp 138/udp 139 445 2223
 
 ENTRYPOINT ["supervisord", "-c", "/etc/supervisord.conf"]
