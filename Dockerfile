@@ -22,6 +22,13 @@ COPY smb.conf /etc/samba/
 RUN addgroup -g 1000 dev && adduser -D -G dev -u 1000 -s /bin/bash dev
 RUN echo -e "dev123!\ndev123!" | passwd dev
 
+# Add a few things for the "dev" user
+RUN echo "dev ALL=(ALL) NOPASSWD:ALL" >/etc/sudoers.d/dev;\
+ chmod 660 /etc/sudoers.d/dev
+COPY git-setup /home/dev/
+RUN chown dev.dev /home/dev/git-setup;\
+ chmod 770 /home/dev/git-setup
+
 # Create a samba user matching our user from above with a very simple password ("letsdance")
 RUN echo -e "letsdance\nletsdance" | smbpasswd -a -s -c /etc/samba/smb.conf dev
 
