@@ -7,7 +7,7 @@ MAINTAINER Todd Buiten <spam@buiten.com>
 RUN apk update && apk upgrade
 
 # Install samba and supervisord and clear the cache afterwards
-RUN apk add bash sudo nodejs nodejs-npm git less make g++ linux-headers curl bind-tools docker openssh samba samba-common-tools supervisor && rm -rf /var/cache/apk/*
+RUN apk add bash sudo shadow nodejs nodejs-npm git less make g++ linux-headers curl bind-tools docker openssh samba samba-common-tools supervisor && rm -rf /var/cache/apk/*
 
 # Change the default port for SSH from 22 to 2223
 RUN sed -i 's/#Port 22/Port 2223/g' /etc/ssh/sshd_config; \
@@ -28,6 +28,8 @@ RUN echo "dev ALL=(ALL) NOPASSWD:ALL" >/etc/sudoers.d/dev;\
 COPY git-setup /home/dev/
 RUN chown dev.dev /home/dev/git-setup;\
  chmod 770 /home/dev/git-setup
+RUN addgroup -g 998 i2c;\
+ usermod -a -G i2c dev
 
 # Create a samba user matching our user from above with a very simple password ("letsdance")
 RUN echo -e "letsdance\nletsdance" | smbpasswd -a -s -c /etc/samba/smb.conf dev
